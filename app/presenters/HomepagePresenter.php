@@ -33,12 +33,17 @@ class HomepagePresenter extends Presenter
 
 	public function renderDefault(int $page = 1): void
 	{
+		$booksFiltered = $this->model->books->findAll();
+
 		$paginator = new Paginator();
 		$paginator->setPage($page);
 		$paginator->setItemsPerPage(1);
-		$paginator->setItemCount(100); // todo
+		$paginator->setItemCount($booksFiltered->countStored());
 
-		$this->template->books = $this->model->books->findAll();
+		$this->template->books = $booksFiltered->limitBy(
+			$paginator->itemsPerPage,
+			$paginator->offset
+		);
 		$this->template->paginator = $paginator;
 	}
 
