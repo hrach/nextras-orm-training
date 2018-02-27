@@ -7,7 +7,7 @@
 		<th>#</th>
 		<th>Title</th>
 		<th>Year</th>
-		<th></th>
+		<th>Authors</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -15,7 +15,12 @@
 		<td>{$book->id}</td>
 		<td>{$book->title}</td>
 		<td>{$book->year}</td>
-		<td></td>
+		<td>
+			<ul>
+				<li>Author 1</li>
+				<li>Author 2</li>
+			</ul>
+		</td>
 	</tr>
 	</tbody>
 </table>
@@ -23,3 +28,7 @@
 <hr>
 
 {control addBook}
+
+<hr>
+
+{control addAuthor}

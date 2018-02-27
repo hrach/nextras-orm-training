@@ -56,4 +56,21 @@ class HomepagePresenter extends Presenter
 
 		return $form;
 	}
+
+
+	protected function createComponentAddAuthor(): Form
+	{
+		$books = [];
+
+		$form = new Form();
+		$form->addSelect('book_id', 'Book', $books);
+		$form->addText('author', 'Author');
+		$form->addSubmit('add', 'Add');
+
+		$form->onSuccess[] = function ($form, $values) {
+
+		};
+
+		return $form;
+	}
 }
