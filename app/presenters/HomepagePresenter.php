@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\Model\Author;
 use App\Model\Book;
 use App\Model\Model;
 use Nette\Application\UI\Form;
@@ -60,7 +61,7 @@ class HomepagePresenter extends Presenter
 
 	protected function createComponentAddAuthor(): Form
 	{
-		$books = [];
+		$books = $this->model->books->findAll()->fetchPairs('id', 'title');
 
 		$form = new Form();
 		$form->addSelect('book_id', 'Book', $books);
@@ -68,7 +69,14 @@ class HomepagePresenter extends Presenter
 		$form->addSubmit('add', 'Add');
 
 		$form->onSuccess[] = function ($form, $values) {
+			$book = $this->model->books->getByIdChecked($values->book_id);
 
+			$author = new Author();
+			$author->name = $values->author;
+			$book->authors->add($author);
+
+			$this->model->persistAndFlush($book);
+			$this->redirect('this');
 		};
 
 		return $form;

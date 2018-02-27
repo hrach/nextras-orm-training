@@ -16,9 +16,8 @@
 		<td>{$book->title}</td>
 		<td>{$book->year}</td>
 		<td>
-			<ul>
-				<li>Author 1</li>
-				<li>Author 2</li>
+			<ul n:inner-foreach="$book->authors as $author">
+				<li>{$author->name}</li>
 			</ul>
 		</td>
 	</tr>
