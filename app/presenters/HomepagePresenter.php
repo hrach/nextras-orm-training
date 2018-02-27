@@ -38,4 +38,21 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
 
 		return $form;
 	}
+
+
+	protected function createComponentAddAuthor()
+	{
+		$books = [];
+
+		$form = new Nette\Application\UI\Form();
+		$form->addSelect('book_id', 'Book', $books);
+		$form->addText('author', 'Author');
+		$form->addSubmit('add', 'Add');
+
+		$form->onSuccess[] = function ($form, $values) {
+
+		};
+
+		return $form;
+	}
 }
