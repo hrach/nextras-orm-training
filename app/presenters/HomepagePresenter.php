@@ -14,9 +14,15 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
 	public $model;
 
 
-	public function renderDefault()
+	public function renderDefault(int $page = 1)
 	{
+		$paginator = new Nette\Utils\Paginator();
+		$paginator->setPage($page);
+		$paginator->setItemsPerPage(1);
+		$paginator->setItemCount(100); // todo
+
 		$this->template->books = $this->model->books->findAll();
+		$this->template->paginator = $paginator;
 	}
 
 

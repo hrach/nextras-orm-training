@@ -24,6 +24,9 @@
 	</tbody>
 </table>
 
+<a n:href="this, page => $paginator->page - 1" n:if="!$paginator->isFirst()">Previous page</a>
+<a n:href="this, page => $paginator->page + 1" n:if="!$paginator->isLast()">Next page</a>
+
 <hr>
 
 {control addBook}
