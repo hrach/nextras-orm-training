@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\Model\Book;
 use App\Model\Model;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
@@ -31,6 +32,7 @@ class HomepagePresenter extends Presenter
 
 	public function renderDefault(): void
 	{
+		$this->template->books = $this->model->books->findAll();
 	}
 
 
@@ -45,7 +47,11 @@ class HomepagePresenter extends Presenter
 		$form->addSubmit('add', 'Add');
 
 		$form->onSuccess[] = function ($form, $values) {
-
+			$book = new Book();
+			$book->title = $values->title;
+			$book->publishedOn = $values->publishedOn;
+			$this->model->persistAndFlush($book);
+			$this->redirect('this');
 		};
 
 		return $form;

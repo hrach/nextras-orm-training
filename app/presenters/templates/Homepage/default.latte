@@ -11,10 +11,10 @@
 	</tr>
 	</thead>
 	<tbody>
-	<tr>
-		<td>1</td>
-		<td>Kniha</td>
-		<td>2012</td>
+	<tr n:foreach="$books as $book">
+		<td>{$book->id}</td>
+		<td>{$book->title}</td>
+		<td>{$book->year}</td>
 		<td></td>
 	</tr>
 	</tbody>
