@@ -5,6 +5,7 @@ namespace App\Presenters;
 use App\Model\Author;
 use App\Model\Book;
 use App\Model\Model;
+use App\Model\SexEnum;
 use Nette;
 
 
@@ -28,6 +29,22 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
 			$paginator->offset
 		);
 		$this->template->paginator = $paginator;
+
+
+		$authors = $this->model->authors->findBy(['sex' => SexEnum::MAN()]);
+		foreach ($authors as $author) {
+			$this->checkSex($author->sex, $author);
+			dump($author->data);
+		}
+
+		// error
+		// $this->model->authors->findBy(['sex' => 'male'])->countStored();
+	}
+
+
+	private function checkSex(SexEnum $sex, Author $author)
+	{
+		echo $author->name . '-' . $sex->getValue() . '<br>';
 	}
 
 
