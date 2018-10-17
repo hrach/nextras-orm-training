@@ -5,6 +5,7 @@ namespace App\Presenters;
 use App\Model\Author;
 use App\Model\Book;
 use App\Model\Model;
+use App\Model\Sex;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
 use Nette\Bridges\ApplicationLatte\Template;
@@ -45,6 +46,14 @@ class HomepagePresenter extends Presenter
 			$paginator->offset
 		);
 		$this->template->paginator = $paginator;
+
+		$authors = $this->model->authors->findBy(['sex' => Sex::MALE]);
+		foreach ($authors as $author) {
+			echo $author->name . '-' . $author->sex->value . '<br>';
+		}
+
+		// error
+		// $this->model->authors->findBy(['sex' => 'male'])->countStored();
 	}
 
 
