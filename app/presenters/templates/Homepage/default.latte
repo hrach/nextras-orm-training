@@ -17,7 +17,7 @@
 		<td>{$book->year}</td>
 		<td>
 			<ul n:inner-foreach="$book->authors as $author">
-				<li>{$author->name}</li>
+				<li>{$author->name} - {$author->color}</li>
 			</ul>
 		</td>
 	</tr>
