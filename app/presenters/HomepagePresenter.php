@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 use App\Model\Author;
 use App\Model\Book;
+use App\Model\FetchJsonFieldFunction;
 use App\Model\Model;
 use App\Model\Sex;
 use Nette\Application\UI\Form;
@@ -11,11 +12,14 @@ use Nette\Application\UI\Presenter;
 use Nette\Bridges\ApplicationLatte\Template;
 use Nette\DI\Attributes\Inject;
 use Nette\Utils\Paginator;
+use Nextras\Orm\Collection\Functions\CompareEqualsFunction;
 use Nextras\Orm\Collection\ICollection;
 
 
 class HomepageTemplate extends Template
 {
+	public array $flashes = [];
+
 	public Paginator $paginator;
 
 	/** @var ICollection<Book> */
@@ -47,7 +51,16 @@ class HomepagePresenter extends Presenter
 		);
 		$this->template->paginator = $paginator;
 
-		$authors = $this->model->authors->findBy(['sex' => Sex::MALE]);
+		// $authors = $this->model->authors->findBy(['sex' => Sex::MALE]);
+
+		$authors = $this->model->authors->findBy([
+			ICollection::AND,
+			[CompareEqualsFunction::class,
+				[FetchJsonFieldFunction::class, 'color', 'red'],
+				10
+			],
+		]);
+
 		foreach ($authors as $author) {
 			echo $author->name . '-' . $author->sex->value . '<br>';
 		}
