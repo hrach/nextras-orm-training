@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use Nette\Utils\Json;
 use Nextras\Dbal\QueryBuilder\QueryBuilder;
 use Nextras\Orm\Collection\Aggregations\IArrayAggregator;
 use Nextras\Orm\Collection\Aggregations\IDbalAggregator;
@@ -22,7 +23,11 @@ class FetchJsonFieldFunction implements CollectionFunction
 		?IArrayAggregator $aggregator = null,
 	): ArrayExpressionResult
 	{
-		// TODO: Implement processArrayExpression() method.
+		$valueResult = $helper->getValue($entity, $args[0], $aggregator);
+		$value = Json::decode($valueResult->value);
+		return new ArrayExpressionResult(
+			value: $value->{$args[1]} ?? null,
+		);
 	}
 
 
@@ -33,6 +38,8 @@ class FetchJsonFieldFunction implements CollectionFunction
 		?IDbalAggregator $aggregator = null,
 	): DbalExpressionResult
 	{
-		// TODO: Implement processDbalExpression() method.
+		$columnExpression = $helper->processExpression($builder, $args[0], $aggregator);
+		$value = $args[1];
+		return $columnExpression->append('->%s', "$.$value");
 	}
 }
